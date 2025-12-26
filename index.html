@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酒厂福利领取</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Helvetica Neue", Arial, sans-serif; background: #fff; min-height: 100vh; }
+        /* 海报容器：相对定位承载海报和滚动信息 */
+        .poster-container { position: relative; width: 100%; }
+        /* 主海报 */
+        .main-poster { width: 100%; display: block; }
+        /* 左上角客户信息滚动栏（透明底色） */
+        .customer-roll { position: absolute; top: 20px; left: 20px; width: 280px; height: 120px; padding: 10px; overflow: hidden; z-index: 10; background: transparent !important; }
+        .roll-list { animation: roll 8s linear infinite; }
+        .roll-item { color: #fff; font-size: 14px; line-height: 30px; text-shadow: 1px 1px 3px #000, 0 0 10px #000; /* 文字阴影增强可读性 */ }
+        /* 微信领取按钮区域 */
+        .wechat-btn-wrap { width: 90%; margin: 15px auto 20px; text-align: center; }
+        /* 按钮：快速大小闪烁动画 */
+        .add-wechat-btn { display: block; width: 100%; padding: 18px 0; background: linear-gradient(90deg, #ff8a00, #ff5000); color: #fff; text-align: center; text-decoration: none; border-radius: 50px; font-size: 20px; font-weight: bold; box-shadow: 0 4px 12px rgba(255, 80, 0, 0.3); animation: flashScale 0.3s ease-in-out infinite alternate; }
+        .countdown-tip { color: #ff5000; font-size: 16px; font-weight: 500; margin-top: 10px; }
+        /* 动画定义 */
+        @keyframes roll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
+        @keyframes flashScale {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 海报+左上角透明滚动信息容器 -->
+    <div class="poster-container">
+        <!-- 主海报（替换为你的产品海报链接） -->
+        <img src="https://s41.ax1x.com/2025/12/26/pZJoDcn.jpg" alt="酒厂福利海报" class="main-poster" />
+        
+        <!-- 左上角透明底色的客户信息滚动栏 -->
+        <div class="customer-roll">
+            <div class="roll-list">
+                <div class="roll-item">邹**在7分钟前已获得国酱1935一箱</div>
+                <div class="roll-item">卫**在16分钟前已获得国酱1935三箱</div>
+                <div class="roll-item">钱**在6分钟前国酱1935一箱已发货</div>
+                <div class="roll-item">葛**在16分钟前已获得国酱1935两箱</div>
+                <!-- 重复数据保证滚动连贯 -->
+                <div class="roll-item">邹**在7分钟前已获得国酱1935五箱</div>
+                <div class="roll-item">卫**在16分钟前已获得国酱1935一箱</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 微信领取按钮+倒计时 -->
+    <div class="wechat-btn-wrap">
+        <a href="weixin://dl/chat?https://work.weixin.qq.com/ca/cawcde482bf27c2a1a" class="add-wechat-btn" target="_blank">→添加酒厂客服领取←</a>
+        <p class="countdown-tip">（将在 <span id="hour">00</span>时<span id="minute">29</span>分<span id="second">44</span>秒后结束）</p>
+    </div>
+
+    <script>
+        // 按钮下方倒计时逻辑（初始00:29:44，实时递减）
+        function btnCountdown() {
+            let totalSeconds = 29 * 60 + 44; // 初始总秒数
+            function updateCountdown() {
+                if (totalSeconds <= 0) {
+                    document.getElementById('hour').textContent = '00';
+                    document.getElementById('minute').textContent = '00';
+                    document.getElementById('second').textContent = '00';
+                    return;
+                }
+                const hour = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+                const minute = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+                const second = (totalSeconds % 60).toString().padStart(2, '0');
+                document.getElementById('hour').textContent = hour;
+                document.getElementById('minute').textContent = minute;
+                document.getElementById('second').textContent = second;
+                totalSeconds--;
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+        // 启动倒计时
+        btnCountdown();
+    </script>
+</body>
+</html>
